@@ -528,6 +528,39 @@
       padding: .22rem .65rem; font-size: .7rem; font-weight: 700; color: var(--dark);
       display: flex; align-items: center; gap: .3rem;
     }
+
+    /* ── PROJECT DETAIL OVERLAY ─────────────────────────────────── */
+    .proj-detail-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--white); overflow-y: auto;
+      animation: detailIn .3s ease both;
+    }
+    .proj-detail-overlay[hidden] { display: none; }
+    @keyframes detailIn { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:none; } }
+    .proj-detail-inner {
+      max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem;
+    }
+    .proj-detail-back {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: none; border: 1.5px solid var(--blue-d); color: var(--blue-d);
+      border-radius: 8px; padding: .45rem 1.1rem; font-size: .85rem; font-weight: 600;
+      cursor: pointer; margin-bottom: 2rem; transition: background .2s, color .2s;
+    }
+    .proj-detail-back:hover { background: var(--blue-d); color: var(--white); }
+    .proj-detail-header {
+      display: flex; gap: 2rem; align-items: flex-start;
+      margin-bottom: 2.5rem; flex-wrap: wrap;
+    }
+    .proj-detail-thumb {
+      width: 220px; height: 160px; object-fit: cover; object-position: top;
+      border-radius: 14px; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,.12);
+    }
+    .proj-detail-award-badge {
+      position: static; margin-bottom: .6rem;
+      display: inline-flex; width: fit-content;
+    }
+    .proj-detail-header h2 { font-size: 1.5rem; font-weight: 800; margin: .3rem 0 .6rem; color: var(--dark); }
+    .proj-detail-header p  { font-size: .9rem; color: var(--muted); line-height: 1.6; }
     .port-body { padding: 1.2rem 1.4rem 1.5rem; }
     .port-category { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--blue-d); margin-bottom: .4rem; }
     .port-card h3 { font-size: .92rem; font-weight: 700; margin-bottom: .4rem; line-height: 1.4; color: var(--dark); }
@@ -1824,11 +1857,11 @@
   const CAT_LABEL = { kesehatan:'Kesehatan', pangan:'Pangan & Agritech', energi:'Energi', edukasi:'Edukasi', teknologi:'Teknologi', lingkungan:'Lingkungan' };
   const projects = [
     { f:'ALCURA.jpg',          n:'Alcura',          c:'lingkungan', e:'🏆 Grand Award WIIPA · JDIE 2026', d:'Lampu fotobioreaktor mikroalga cerdas berbasis AIoT — memurnikan udara, memproduksi oksigen, dan dipantau real-time untuk green building.' },
-    { f:'SmartEly/SmartEly.jpg',        n:'SmartEly',        c:'kesehatan',  e:'🥇 Gold Medal MTE', d:'Smartwatch pemantauan kesehatan lansia dengan rekomendasi herbal berbasis kearifan lokal Indonesia.' },
-    { f:'SEISMOSENS/SEISMOSENSE.jpg',   n:'SeismoSense',     c:'lingkungan', e:'🥇 Gold Medal IID 2025', d:'Sistem jaringan sensor yang terintegrasi untuk mitigasi Gempa Bumi Megathrust dan pemantauan kesehatan struktur kota cerdas.' },
+    { f:'SmartEly/SmartEly.jpg',        n:'SmartEly',        c:'kesehatan',  e:'🥇 Gold Medal MTE, Gold & Special Award Thailand 2025', d:'Smartwatch pemantauan kesehatan lansia dengan rekomendasi herbal berbasis kearifan lokal Indonesia.' },
+    { f:'SEISMOSENS/SEISMOSENSE.jpg',   n:'SeismoSense',     c:'lingkungan', e:'🥇 Gold Medal IID 2025',   d:'Sistem jaringan sensor yang terintegrasi untuk mitigasi Gempa Bumi Megathrust dan pemantauan kesehatan struktur kota cerdas.' },
     { f:'EDUBOX/EDUBOX.jpg',            n:'EduBox',          c:'edukasi',    e:'🥈 Silver Medal IID 2025', d:'Kotak edukasi interaktif berbasis IoT untuk pembelajaran STEM dan literasi digital di sekolah menengah.' },
     { f:'SANATECH/SANATECH.jpg',        n:'SanaTECH',        c:'kesehatan',  e:'🥈 Silver Medal IID 2025', d:'Sistem biofeedback inovatif yang non-invasif, yang dirancang untuk mendukung pemantauan kesehatan mental dan fisik secara real-time menggunakan sensor multimodal.' },
-    { f:'VITARING/VITARING.jpg',        n:'VitaRing',        c:'kesehatan',  e:'IID 2025',    d:'Cincin pintar berbasis sport science untuk pemantauan holistik kesehatan dan performa atlet.' },
+    { f:'VITARING/VITARING.jpg',        n:'VitaRing',        c:'kesehatan',  e:'🥈 Silver Medal IID 2025', d:'Cincin pintar berbasis sport science untuk pemantauan holistik kesehatan dan performa atlet.' },
     { f:'AGNIVOLT/AGNIVOLT.jpg',        n:'AgniVolt',        c:'energi',     e:'I2ASPO 2025', d:'Pembangkit listrik mikrohidro berbasis IoT dengan turbin ulir Archimedes untuk daerah terpencil.' },
     { f:'NOCTIVIS/NOCTIVIS.jpg',        n:'Noctivis',        c:'kesehatan',  e:'MTE 2026',    d:'Wearable biosignal multimodal untuk deteksi dini kantuk dan risiko microsleep berbasis Ear-EEG.' },
     { f:'AGRICUSTOS/AGRICUSTOS.jpg',    n:'AgriCustos',      c:'pangan',     e:'',            d:'Solusi pertanian cerdas berbasis drone dan AI untuk deteksi dini penyakit tanaman di Indonesia.' },
@@ -1852,20 +1885,20 @@
     { f:'V-TORO/V-TORO.jpg',            n:'V-Toro',          c:'kesehatan',  e:'',            d:'Virtual reality untuk meningkatkan keterampilan sosial anak autisme dengan konteks gotong royong.' },
     { f:'NECTRA/NECTRA.jpg',            n:'Nectra',          c:'kesehatan',  e:'AISEEF 2026', d:'Kalung pintar bertenaga AI untuk mencegah penyakit metabolik melalui pelacakan kalori otomatis.' },
     { f:'FLONERA/FLONERA.jpg',          n:'Flonera',         c:'pangan',     e:'I2ASPO 2025', d:'Solusi smart farming berbasis drone dan AI untuk deteksi dini penyakit tanaman.' },
-    { f:'SERENECAM/SERENECAM.jpg',      n:'SereneCam',       c:'kesehatan',  e:'IID 2025',    d:'Sistem cerdas berbasis mikroekspresi untuk memantau kesehatan mental karyawan dan menjaga produktivitas.' },
+    { f:'SERENECAM/SERENECAM.jpg',      n:'SereneCam',       c:'kesehatan',  e:'🥇 Gold & Special Award Thailand IID 2025 ',    d:'Sistem cerdas berbasis mikroekspresi untuk memantau kesehatan mental karyawan dan menjaga produktivitas.' },
     { f:'NUSADWIPA/NUSADWIPA.jpg',      n:'NusaDwipa',       c:'edukasi',    e:'I2ASPO 2025', d:'Permainan edukasi budaya Indonesia multiplayer dengan konsep pembelajaran kolaboratif tiga dimensi.' },
     { f:'VECTRO/VECTRO.jpg',            n:'Vectro',          c:'kesehatan',  e:'AISEEF 2026', d:'Game berbasis kontrol gestur untuk melatih koordinasi visuomotor anak dengan spektrum autisme.' },
-    { f:'PURIVA/PURIVA.jpg',            n:'Puriva',          c:'pangan',     e:'IID 2025',    d:'Chamber UV-C pintar dengan klasifikasi AI untuk mengeliminasi patogen makanan program makan gratis.' },
+    { f:'PURIVA/PURIVA.jpg',            n:'Puriva',          c:'pangan',     e:'🥇 Gold Medal IID 2025',    d:'Chamber UV-C pintar dengan klasifikasi AI untuk mengeliminasi patogen makanan program makan gratis.' },
     { f:'MINDWELL/MINDWELL.jpg',        n:'MindWell',        c:'kesehatan',  e:'',            d:'Inovasi psikoteknologi biofeedback untuk deteksi dini dan pemantauan kesehatan mental di era Society 5.0.' },
     { f:'INARITECH/INARITECH.jpg',      n:'InariTech',       c:'pangan',     e:'',            d:'Stasiun cuaca multifungsi dengan AI untuk rekomendasi cerdas bagi sektor pertanian Indonesia.' },
     { f:'GAPAI/GAPAI.jpg',              n:'GAPAI',           c:'kesehatan',  e:'',            d:'Asisten analisis gaya berjalan dan postur berbasis AI untuk mendukung dokter dan fisioterapis.' },
     { f:'VOLUX/VOLUX.jpg',              n:'Volux',           c:'teknologi',  e:'SEMESTA 2025',d:'Kubus LED interaktif sebagai era baru interaksi visual untuk hiburan dan edukasi Indonesia.' },
     { f:'EVALONIX/EVALONIX.jpg',        n:'Evalonix',        c:'teknologi',  e:'',            d:'Program anti-kecurangan berbasis AI yang terintegrasi sistem pengawasan untuk ujian daring yang jujur.' },
-    { f:'FINPRES/FINPRES.jpg',          n:'FinPres',         c:'edukasi',    e:'IID 2025',    d:'Platform fintech inklusi finansial akademik untuk mendemokratisasi prestasi siswa di era Society 5.0.' },
+    { f:'FINPRES/FINPRES.jpg',          n:'FinPres',         c:'edukasi',    e:'🥉 Bronze Medal IID 2025',    d:'Platform fintech inklusi finansial akademik untuk mendemokratisasi prestasi siswa di era Society 5.0.' },
     { f:'SPORTFLUX/SPORTFLUX.jpg',      n:'SportFlux',       c:'kesehatan',  e:'',            d:'Platform pemantauan performa atlet dengan sensor EMG serta rekomendasi pelatih dan fisioterapis.' },
     { f:'LPB/LPB.jpg',                  n:'LPB',             c:'energi',     e:'',            d:'Kombinasi pembangkit mikrohidro dan generator hidrogen modular untuk kebutuhan listrik daerah 3T.' },
     { f:'STEPX/STEPX.jpg',              n:'StepX',           c:'kesehatan',  e:'',            d:'Alat pendukung dokter dan fisioterapis dalam mendiagnosis gangguan gaya berjalan dan postur.' },
-    { f:'VERTAFLEX/VERTAFLEX.jpg',      n:'VertaFlex',       c:'kesehatan',  e:'',            d:'Sistem pemantauan muskuloskeletal berbasis Web-3 untuk analisis postur pekerja menuju Health 5.0.' },
+    { f:'VERTAFLEX/VERTAFLEX.jpg',      n:'VertaFlex',       c:'kesehatan',  e:'🥇 Gold & Spesial award IID 2025',            d:'Sistem pemantauan muskuloskeletal berbasis Web-3 untuk analisis postur pekerja menuju Health 5.0.' },
     { f:'VITAFLUX/VITAFLUX.jpg',        n:'VitaFlux',        c:'kesehatan',  e:'',            d:'Perangkat wearable biofeedback dengan headband EEG untuk pemantauan kesehatan dan relaksasi.' },
     { f:'JDIE/JDIE.jpg',                n:'JDIE',            c:'pangan',     e:'',            d:'Aplikasi terhubung drone pintar untuk pemantauan tanaman dan rekomendasi perawatan otomatis.' },
     { f:'LUNA/LUNA.jpg',                n:'LUNA',            c:'teknologi',  e:'',            d:'Utilitas LiDAR untuk analisis navigasi dilengkapi panduan penggunaan aplikasi yang lengkap.' },
@@ -1889,13 +1922,15 @@
         <div class="port-img">
           <img src="portfolio/${p.f}" alt="${p.n}" loading="lazy"
                style="width:100%;height:100%;object-fit:cover;object-position:top"/>
-          ${p.e ? `<div class="port-award">${(p.e.startsWith('🥇') || p.e.startsWith('🏆') || p.e.startsWith('🥈')) ? p.e : '🌏 ' + p.e}</div>` : ''}
+          ${p.e ? `<div class="port-award">${(p.e.startsWith('🥇') || p.e.startsWith('🏆') || p.e.startsWith('🥈') || p.e.startsWith('🥉')) ? p.e : '🌏 ' + p.e}</div>` : ''}
         </div>
         <div class="port-body">
           <div class="port-category">${CAT_LABEL[p.c] || p.c}</div>
           <h3>${p.n}</h3>
           <p>${p.d}</p>
         </div>`;
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', () => openProjDetail(p));
       portGrid.appendChild(card);
     });
     portMore.style.display = portShown >= list.length ? 'none' : '';
@@ -1910,6 +1945,37 @@
     });
   });
   portMore.addEventListener('click', () => { portShown += PORT_PAGE; renderPort(); });
+
+  // ── Project detail overlay ────────────────────────────────────
+  function openProjDetail(p) {
+    const projDetail = document.getElementById('proj-detail');
+
+    document.getElementById('projDetailImg').src = 'portfolio/' + p.f;
+    document.getElementById('projDetailImg').alt = p.n;
+    document.getElementById('projDetailName').textContent = p.n;
+    document.getElementById('projDetailDesc').textContent = p.d;
+    document.getElementById('projDetailCat').textContent  = CAT_LABEL[p.c] || p.c;
+
+    const awardEl = document.getElementById('projDetailAward');
+    if (p.e) {
+      awardEl.textContent = (p.e.startsWith('🏆')||p.e.startsWith('🥇')||p.e.startsWith('🥈')||p.e.startsWith('🥉')) ? p.e : '🌏 ' + p.e;
+      awardEl.hidden = false;
+    } else {
+      awardEl.hidden = true;
+    }
+
+    projDetail.hidden = false;
+    projDetail.scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+
+    document.getElementById('projDetailBack').onclick = closeProjDetail;
+    projDetail.onclick = e => { if (e.target === projDetail) closeProjDetail(); };
+
+    function closeProjDetail() {
+      projDetail.hidden = true;
+      document.body.style.overflow = '';
+    }
+  }
 
   const styleEl = document.createElement('style');
   styleEl.textContent = '@keyframes cardIn { from { opacity:0; transform:translateY(16px) scale(.97);} to { opacity:1; transform:none;} }';
@@ -2265,5 +2331,19 @@
     });
   }, { passive: true });
 </script>
+<div id="proj-detail" class="proj-detail-overlay" aria-modal="true" role="dialog" hidden>
+  <div class="proj-detail-inner">
+    <button class="proj-detail-back" id="projDetailBack">&#8592; Kembali</button>
+    <div class="proj-detail-header">
+      <img id="projDetailImg" src="" alt="" class="proj-detail-thumb"/>
+      <div>
+        <div id="projDetailAward" class="port-award proj-detail-award-badge"></div>
+        <div id="projDetailCat" class="port-category"></div>
+        <h2 id="projDetailName"></h2>
+        <p id="projDetailDesc"></p>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
