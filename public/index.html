@@ -529,38 +529,29 @@
       display: flex; align-items: center; gap: .3rem;
     }
 
-    /* ── PROJECT DETAIL OVERLAY ─────────────────────────────────── */
-    .proj-detail-overlay {
+    /* ── IMAGE LIGHTBOX ─────────────────────────────────────────── */
+    .img-lightbox {
       position: fixed; inset: 0; z-index: 9999;
-      background: var(--white); overflow-y: auto;
-      animation: detailIn .3s ease both;
+      background: rgba(0,0,0,.85); display: flex; align-items: center; justify-content: center;
+      cursor: zoom-out; animation: lbIn .2s ease both;
     }
-    .proj-detail-overlay[hidden] { display: none; }
-    @keyframes detailIn { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:none; } }
-    .proj-detail-inner {
-      max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem;
+    .img-lightbox[hidden] { display: none; }
+    @keyframes lbIn { from { opacity:0; } to { opacity:1; } }
+    .img-lightbox img {
+      max-width: 90vw; max-height: 88vh;
+      border-radius: 12px; box-shadow: 0 8px 40px rgba(0,0,0,.6);
+      animation: lbImgIn .25s ease both;
+      pointer-events: none;
     }
-    .proj-detail-back {
-      display: inline-flex; align-items: center; gap: .4rem;
-      background: none; border: 1.5px solid var(--blue-d); color: var(--blue-d);
-      border-radius: 8px; padding: .45rem 1.1rem; font-size: .85rem; font-weight: 600;
-      cursor: pointer; margin-bottom: 2rem; transition: background .2s, color .2s;
+    @keyframes lbImgIn { from { transform: scale(.93); } to { transform: scale(1); } }
+    .img-lightbox-close {
+      position: fixed; top: 1.2rem; right: 1.4rem;
+      background: rgba(255,255,255,.15); border: none; color: #fff;
+      font-size: 1.6rem; line-height: 1; width: 2.4rem; height: 2.4rem;
+      border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background .2s;
     }
-    .proj-detail-back:hover { background: var(--blue-d); color: var(--white); }
-    .proj-detail-header {
-      display: flex; gap: 2rem; align-items: flex-start;
-      margin-bottom: 2.5rem; flex-wrap: wrap;
-    }
-    .proj-detail-thumb {
-      width: 220px; height: 160px; object-fit: cover; object-position: top;
-      border-radius: 14px; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,.12);
-    }
-    .proj-detail-award-badge {
-      position: static; margin-bottom: .6rem;
-      display: inline-flex; width: fit-content;
-    }
-    .proj-detail-header h2 { font-size: 1.5rem; font-weight: 800; margin: .3rem 0 .6rem; color: var(--dark); }
-    .proj-detail-header p  { font-size: .9rem; color: var(--muted); line-height: 1.6; }
+    .img-lightbox-close:hover { background: rgba(255,255,255,.3); }
     .port-body { padding: 1.2rem 1.4rem 1.5rem; }
     .port-category { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--blue-d); margin-bottom: .4rem; }
     .port-card h3 { font-size: .92rem; font-weight: 700; margin-bottom: .4rem; line-height: 1.4; color: var(--dark); }
@@ -1331,6 +1322,78 @@
               <div><div class="testi-name">Drs. Santoso Wibowo, M.Pd.</div><div class="testi-role">Kepala Sekolah, MAN 1 Bandung</div></div>
             </div>
           </div>
+          <div class="testi-card">
+            <div class="stars">★★★★★</div>
+            <p class="testi-text">"Awalnya saya cuma modal nekat ikut lomba tanpa strategi. Setelah gabung program ini, saya jadi paham cara riset kompetisi dan menyusun portofolio yang kuat. Alhamdulillah tembus juara 2 tingkat provinsi."</p>
+            <div class="testi-author">
+              <div class="testi-avatar">R</div>
+              <div><div class="testi-name">Rangga Wibisono</div><div class="testi-role">Siswa</div></div>
+            </div>
+          </div>
+          <div class="testi-card">
+            <div class="stars">★★★★★</div>
+            <p class="testi-text">"Mentor-mentornya sabar banget ngajarin dari nol. Yang paling berkesan itu sesi simulasi wawancara juri, jadi pas hari-H saya nggak grogi lagi."</p>
+            <div class="testi-author">
+              <div class="testi-avatar">D</div>
+              <div><div class="testi-name">Dinda Amelia</div><div class="testi-role">Siswa</div></div>
+            </div>
+          </div>
+          <div class="testi-card">
+            <div class="stars">★★★★★</div>
+            <p class="testi-text">"Materi tentang cara membedah kriteria penilaian juri itu game changer buat saya. Sekarang tiap ikut lomba, saya selalu bikin checklist dulu sebelum submit karya."</p>
+            <div class="testi-author">
+              <div class="testi-avatar">F</div>
+              <div><div class="testi-name">Fajar Nugroho</div><div class="testi-role">Siswa</div></div>
+            </div>
+          </div>
+          <div class="testi-card">
+            <div class="stars">★★★★★</div>
+            <p class="testi-text">"Investasi terbaik sebelum musim lomba. Berkat bimbingan intensif di sini, saya berhasil lolos ke babak final nasional untuk pertama kalinya."</p>
+            <div class="testi-author">
+              <div class="testi-avatar">R</div>
+              <div><div class="testi-name">Reza Firmansyah</div><div class="testi-role">Siswa</div></div>
+            </div>
+          </div>
+          <div class="testi-card">
+            <div class="stars">★★★★★</div>
+            <p class="testi-text">"Yang bikin beda dari bimbingan lain, di sini diajarin juga cara membangun narasi dan storytelling untuk presentasi, bukan cuma isi karyanya doang."</p>
+            <div class="testi-author">
+              <div class="testi-avatar">A</div>
+              <div><div class="testi-name">Anindya Kirana</div><div class="testi-role">Siswa</div></div>
+            </div>
+          </div>
+          <div class="testi-card">
+            <div class="stars">★★★★★</div>
+            <p class="testi-text">"Jadwal bimbingannya fleksibel jadi bisa disesuaikan sama waktu sekolah/kuliah. Progress saya kelihatan jelas dari sesi ke sesi."</p>
+            <div class="testi-author">
+              <div class="testi-avatar">Y</div>
+              <div><div class="testi-name">Yusuf Hakim</div><div class="testi-role">Siswa</div></div>
+            </div>
+          </div>
+          <div class="testi-card">
+            <div class="stars">★★★★★</div>
+            <p class="testi-text">"Suka banget sama pendekatan personalnya, tiap peserta dapat feedback spesifik sesuai bidang lomba masing-masing, bukan template umum."</p>
+            <div class="testi-author">
+              <div class="testi-avatar">C</div>
+              <div><div class="testi-name">Clara Vania</div><div class="testi-role">Siswa</div></div>
+            </div>
+          </div>
+          <div class="testi-card">
+            <div class="stars">★★★★★</div>
+            <p class="testi-text">"Dulu saya sering gagal di tahap seleksi awal karena administrasi berkas kurang rapi. Program ini benerin banyak hal teknis kecil yang ternyata berpengaruh besar."</p>
+            <div class="testi-author">
+              <div class="testi-avatar">B</div>
+              <div><div class="testi-name">Bima Aditya</div><div class="testi-role">Siswa</div></div>
+            </div>
+          </div>
+          <div class="testi-card">
+            <div class="stars">★★★★★</div>
+            <p class="testi-text">"Komunitasnya suportif, teman-teman satu batch saling kasih masukan jujur. Karya saya jadi jauh lebih matang dibanding waktu ikut lomba sendirian."</p>
+            <div class="testi-author">
+              <div class="testi-avatar">S</div>
+              <div><div class="testi-name">Salsabila Putri</div><div class="testi-role">Siswa</div></div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="testi-controls">
@@ -1856,7 +1919,7 @@
   // ── Portfolio (proyek nyata dari inkubator) ───────────────────
   const CAT_LABEL = { kesehatan:'Kesehatan', pangan:'Pangan & Agritech', energi:'Energi', edukasi:'Edukasi', teknologi:'Teknologi', lingkungan:'Lingkungan' };
   const projects = [
-    { f:'ALCURA.jpg',          n:'Alcura',          c:'lingkungan', e:'🏆 Grand Award WIIPA · JDIE 2026', d:'Lampu fotobioreaktor mikroalga cerdas berbasis AIoT — memurnikan udara, memproduksi oksigen, dan dipantau real-time untuk green building.' },
+    { f:'ALCURA/ALCURA.jpg',            n:'Alcura',          c:'lingkungan', e:'🏆 Grand Award WIIPA · JDIE 2026', d:'Lampu fotobioreaktor mikroalga cerdas berbasis AIoT — memurnikan udara, memproduksi oksigen, dan dipantau real-time untuk green building.' },
     { f:'SmartEly/SmartEly.jpg',        n:'SmartEly',        c:'kesehatan',  e:'🥇 Gold Medal MTE, Gold & Special Award Thailand 2025', d:'Smartwatch pemantauan kesehatan lansia dengan rekomendasi herbal berbasis kearifan lokal Indonesia.' },
     { f:'SEISMOSENS/SEISMOSENSE.jpg',   n:'SeismoSense',     c:'lingkungan', e:'🥇 Gold Medal IID 2025',   d:'Sistem jaringan sensor yang terintegrasi untuk mitigasi Gempa Bumi Megathrust dan pemantauan kesehatan struktur kota cerdas.' },
     { f:'EDUBOX/EDUBOX.jpg',            n:'EduBox',          c:'edukasi',    e:'🥈 Silver Medal IID 2025', d:'Kotak edukasi interaktif berbasis IoT untuk pembelajaran STEM dan literasi digital di sekolah menengah.' },
@@ -1946,35 +2009,15 @@
   });
   portMore.addEventListener('click', () => { portShown += PORT_PAGE; renderPort(); });
 
-  // ── Project detail overlay ────────────────────────────────────
+  // ── Image lightbox ───────────────────────────────────────────
   function openProjDetail(p) {
-    const projDetail = document.getElementById('proj-detail');
-
-    document.getElementById('projDetailImg').src = 'portfolio/' + p.f;
-    document.getElementById('projDetailImg').alt = p.n;
-    document.getElementById('projDetailName').textContent = p.n;
-    document.getElementById('projDetailDesc').textContent = p.d;
-    document.getElementById('projDetailCat').textContent  = CAT_LABEL[p.c] || p.c;
-
-    const awardEl = document.getElementById('projDetailAward');
-    if (p.e) {
-      awardEl.textContent = (p.e.startsWith('🏆')||p.e.startsWith('🥇')||p.e.startsWith('🥈')||p.e.startsWith('🥉')) ? p.e : '🌏 ' + p.e;
-      awardEl.hidden = false;
-    } else {
-      awardEl.hidden = true;
-    }
-
-    projDetail.hidden = false;
-    projDetail.scrollTop = 0;
+    const lb = document.getElementById('proj-lightbox');
+    document.getElementById('projLbImg').src = 'portfolio/' + p.f;
+    lb.hidden = false;
     document.body.style.overflow = 'hidden';
-
-    document.getElementById('projDetailBack').onclick = closeProjDetail;
-    projDetail.onclick = e => { if (e.target === projDetail) closeProjDetail(); };
-
-    function closeProjDetail() {
-      projDetail.hidden = true;
-      document.body.style.overflow = '';
-    }
+    const close = () => { lb.hidden = true; document.body.style.overflow = ''; };
+    lb.onclick = close;
+    document.getElementById('lbClose').onclick = e => { e.stopPropagation(); close(); };
   }
 
   const styleEl = document.createElement('style');
@@ -2167,6 +2210,12 @@
     { id:'1iZ1XS98Ccv0bF1W59rRcx5UVocq0DnHg', poster:'video/noctivis_mte.jpg',   title:'Suasana Booth Tim Noctivis',        tag:'MTE 2026' },
     { id:'1MwbLRSk8aEwJlvpLP_mFmEbIOLsCcxNw', poster:'video/nusadwipa.jpg',      title:'Demo Game Edukasi NusaDwipa',       tag:'Demo Produk' },
     { id:'1Ew8pFsyjnWTkJoTHaf9DapEpjVxYXVpT', poster:'video/vitalora_web.jpg',   title:'Pengenalan Platform Vitalora',      tag:'YISF 2026' },
+    { id:'1cNAkJIj4a1QYIREi8zdJ4H-evt2l1e7Z', poster:'video/vitalora_web.jpg',   title:'Pengenalan Platform Vitalora',      tag:'YISF 2026' },
+    { id:'1WSjjguvfUBJDxxygTZ_sL_hhI22IYKI7', poster:'video/vitalora_web.jpg',   title:'Pengenalan Platform Vitalora',      tag:'YISF 2026' },
+    { id:'1L45Lk4PAWYJs7nhPSS9MFiipIYgMGg12', poster:'video/vitalora_web.jpg',   title:'Pengenalan Platform Vitalora',      tag:'YISF 2026' },
+    { id:'14Ejzgu6L-EVWcexrwKOx9HgtjPk9eplZ', poster:'video/vitalora_web.jpg',   title:'Pengenalan Platform Vitalora',      tag:'YISF 2026' },
+    { id:'1zmIoW0txnbHNYJPAMw6RZv7lAGAhpqiT', poster:'video/vitalora_web.jpg',   title:'Pengenalan Platform Vitalora',      tag:'YISF 2026' },
+    { id:'1tPIHhWpjvsYISXqTNChhu0XEVjEEwcLQ', poster:'video/vitalora_web.jpg',   title:'Pengenalan Platform Vitalora',      tag:'YISF 2026' },
   ];
   const videoGrid = document.getElementById('videoGrid');
   const videobox  = document.getElementById('videobox');
@@ -2331,19 +2380,9 @@
     });
   }, { passive: true });
 </script>
-<div id="proj-detail" class="proj-detail-overlay" aria-modal="true" role="dialog" hidden>
-  <div class="proj-detail-inner">
-    <button class="proj-detail-back" id="projDetailBack">&#8592; Kembali</button>
-    <div class="proj-detail-header">
-      <img id="projDetailImg" src="" alt="" class="proj-detail-thumb"/>
-      <div>
-        <div id="projDetailAward" class="port-award proj-detail-award-badge"></div>
-        <div id="projDetailCat" class="port-category"></div>
-        <h2 id="projDetailName"></h2>
-        <p id="projDetailDesc"></p>
-      </div>
-    </div>
-  </div>
+<div id="proj-lightbox" class="img-lightbox" hidden>
+  <button class="img-lightbox-close" id="lbClose">&#x2715;</button>
+  <img id="projLbImg" src="" alt=""/>
 </div>
 </body>
 </html>
