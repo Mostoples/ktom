@@ -532,29 +532,38 @@
       display: flex; align-items: center; gap: .3rem;
     }
 
-    /* ── IMAGE LIGHTBOX ─────────────────────────────────────────── */
-    .img-lightbox {
+    /* ── PROJECT DETAIL PANEL ───────────────────────────────────── */
+    .proj-detail-panel {
       position: fixed; inset: 0; z-index: 9999;
-      background: rgba(0,0,0,.85); display: flex; align-items: center; justify-content: center;
-      cursor: zoom-out; animation: lbIn .2s ease both;
+      background: var(--white); overflow-y: auto;
+      animation: detailIn .3s ease both;
     }
-    .img-lightbox[hidden] { display: none; }
-    @keyframes lbIn { from { opacity:0; } to { opacity:1; } }
-    .img-lightbox img {
-      max-width: 90vw; max-height: 88vh;
-      border-radius: 12px; box-shadow: 0 8px 40px rgba(0,0,0,.6);
-      animation: lbImgIn .25s ease both;
-      pointer-events: none;
+    .proj-detail-panel[hidden] { display: none; }
+    @keyframes detailIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+    .proj-detail-inner { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+    .proj-detail-back {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: none; border: 1.5px solid var(--blue-d); color: var(--blue-d);
+      border-radius: 8px; padding: .45rem 1.1rem; font-size: .85rem; font-weight: 600;
+      cursor: pointer; margin-bottom: 2rem; transition: background .2s, color .2s;
     }
-    @keyframes lbImgIn { from { transform: scale(.93); } to { transform: scale(1); } }
-    .img-lightbox-close {
-      position: fixed; top: 1.2rem; right: 1.4rem;
-      background: rgba(255,255,255,.15); border: none; color: #fff;
-      font-size: 1.6rem; line-height: 1; width: 2.4rem; height: 2.4rem;
-      border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
-      transition: background .2s;
+    .proj-detail-back:hover { background: var(--blue-d); color: #fff; }
+    .proj-detail-thumb {
+      width: 100%; max-height: 420px; object-fit: cover; object-position: top;
+      border-radius: 14px; margin-bottom: 1.8rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,.1);
     }
-    .img-lightbox-close:hover { background: rgba(255,255,255,.3); }
+    .proj-detail-award { display: inline-flex; margin-bottom: .7rem; }
+    .proj-detail-cat { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--blue-d); margin-bottom: .3rem; }
+    .proj-detail-name { font-size: 1.6rem; font-weight: 800; color: var(--dark); margin-bottom: .35rem; }
+    .proj-detail-title { font-size: .95rem; color: var(--muted); margin-bottom: 1.6rem; font-style: italic; }
+    .proj-detail-section { margin-bottom: 1.5rem; }
+    .proj-detail-section h4 { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--blue-d); margin-bottom: .45rem; }
+    .proj-detail-section p, .proj-detail-section a { font-size: .9rem; color: var(--dark); line-height: 1.7; }
+    .proj-detail-section a { color: var(--blue-d); word-break: break-all; }
+    .proj-detail-docs { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap: .8rem; margin-top: .2rem; }
+    .proj-detail-docs img { width:100%; border-radius: 8px; object-fit: cover; aspect-ratio: 4/3; cursor: zoom-in; }
+    .proj-detail-na { color: var(--muted); font-size: .88rem; font-style: italic; }
     .port-body { padding: 1.2rem 1.4rem 1.5rem; }
     .port-category { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--blue-d); margin-bottom: .4rem; }
     .port-card h3 { font-size: .92rem; font-weight: 700; margin-bottom: .4rem; line-height: 1.4; color: var(--dark); }
@@ -1953,52 +1962,86 @@
   // ── Portfolio (proyek nyata dari inkubator) ───────────────────
   const CAT_LABEL = { kesehatan:'Kesehatan', pangan:'Pangan & Agritech', energi:'Energi', edukasi:'Edukasi', teknologi:'Teknologi', lingkungan:'Lingkungan' };
   const projects = [
-    { f:'ALCURA/ALCURA.jpg',            n:'Alcura',          c:'lingkungan', e:'🏆 Grand Award WIIPA · JDIE 2026', d:'Lampu fotobioreaktor mikroalga cerdas berbasis AIoT — memurnikan udara, memproduksi oksigen, dan dipantau real-time untuk green building.' },
-    { f:'SmartEly/SmartEly.jpg',        n:'SmartEly',        c:'kesehatan',  e:'🥇 Gold Medal MTE, Gold & Special Award Thailand 2025', d:'Smartwatch pemantauan kesehatan lansia dengan rekomendasi herbal berbasis kearifan lokal Indonesia.' },
-    { f:'SEISMOSENS/SEISMOSENSE.jpg',   n:'SeismoSense',     c:'lingkungan', e:'🥇 Gold Medal IID 2025',   d:'Sistem jaringan sensor yang terintegrasi untuk mitigasi Gempa Bumi Megathrust dan pemantauan kesehatan struktur kota cerdas.' },
-    { f:'EDUBOX/EDUBOX.jpg',            n:'EduBox',          c:'edukasi',    e:'🥈 Silver Medal IID 2025', d:'Kotak edukasi interaktif berbasis IoT untuk pembelajaran STEM dan literasi digital di sekolah menengah.' },
-    { f:'SANATECH/SANATECH.jpg',        n:'SanaTECH',        c:'kesehatan',  e:'🥈 Silver Medal IID 2025', d:'Sistem biofeedback inovatif yang non-invasif, yang dirancang untuk mendukung pemantauan kesehatan mental dan fisik secara real-time menggunakan sensor multimodal.' },
-    { f:'VITARING/VITARING.jpg',        n:'VitaRing',        c:'kesehatan',  e:'🥈 Silver Medal IID 2025', d:'Cincin pintar berbasis sport science untuk pemantauan holistik kesehatan dan performa atlet.' },
-    { f:'AGNIVOLT/AGNIVOLT.jpg',        n:'AgniVolt',        c:'energi',     e:'I2ASPO 2025', d:'Pembangkit listrik mikrohidro berbasis IoT dengan turbin ulir Archimedes untuk daerah terpencil.' },
-    { f:'NOCTIVIS/NOCTIVIS.jpg',        n:'Noctivis',        c:'kesehatan',  e:'MTE 2026',    d:'Wearable biosignal multimodal untuk deteksi dini kantuk dan risiko microsleep berbasis Ear-EEG.' },
-    { f:'AGRICUSTOS/AGRICUSTOS.jpg',    n:'AgriCustos',      c:'pangan',     e:'',            d:'Solusi pertanian cerdas berbasis drone dan AI untuk deteksi dini penyakit tanaman di Indonesia.' },
-    { f:'ANAXR/ANAXR.jpg',              n:'AnaXR',           c:'edukasi',    e:'',            d:'Aplikasi eksplorasi anatomi organ tubuh tiga dimensi berbasis gerakan untuk pembelajaran interaktif.' },
-    { f:'QUAKELINK/QUAKELINK.jpg',      n:'QuakeLink',       c:'lingkungan', e:'',            d:'Sistem peringatan dini gempa bumi berbasis grid dengan konsep Internet of Things.' },
-    { f:'OLYRA/OLYRA.jpg',              n:'Olyra',           c:'kesehatan',  e:'MTE 2026',    d:'Headband EEG cerdas untuk terapi kesehatan mental multi-parameter dan manajemen ADHD.' },
-    { f:'STERIFLOW/STERIFLOW.jpg',      n:'SteriFlow',       c:'pangan',     e:'JISF 2026',   d:'Sistem sterilisasi UV-LED pintar dan semprotan etanol food-grade untuk kontrol bakteri wadah makanan.' },
-    { f:'SENAVISION/SENAVISION.jpg',    n:'SenaVision',      c:'kesehatan',  e:'I2ASPO 2025', d:'Kacamata pintar untuk navigasi mandiri penyandang tunanetra dengan teknologi sensor cerdas.' },
-    { f:'AERONEXA/AERONEXA.jpg',        n:'AeroNexa',        c:'lingkungan', e:'GYIF 2026',   d:'Sistem IoT berbasis AI untuk memantau kualitas udara dalam ruangan dan memberi peringatan dini kesehatan.' },
-    { f:'BATIKED/BATIKED.jpg',          n:'BatikEd',         c:'edukasi',    e:'',            d:'Aplikasi edukasi budaya batik dalam bahasa isyarat karya tim siswa SMP Negeri 5 Yogyakarta.' },
-    { f:'HYDROVOLTIGER/HYDROVOLTIGER.jpg',   n:'HydroVoltiger',   c:'energi',     e:'I2ASPO 2025', d:'Sistem energi terbarukan berbasis IoT menggunakan turbin crossflow yang skalabel dan terjangkau.' },
-    { f:'MOODMATE/MOODMATE.jpg',        n:'MoodMate',        c:'kesehatan',  e:'',            d:'Aplikasi mobile dengan wawasan AI mingguan dan mini-game interaktif untuk kesehatan mental remaja.' },
-    { f:'AGRIHOUSE/AGRIHOUSE.jpg',      n:'AgriHouse',       c:'pangan',     e:'I2ASPO 2025', d:'Sistem konsultasi rumah kaca pintar berbasis AI untuk membantu petani mengelola tanaman secara otomatis.' },
-    { f:'SYNAWACTH/SYNAWACTH.jpg',      n:'SynaWatch',       c:'kesehatan',  e:'MTE 2026',    d:'Wearable AI closed-loop dengan konseling humanoid adaptif untuk deteksi dini depresi remaja.' },
-    { f:'NUSANTARA QUEST/NUSANTARA_QUEST.jpg', n:'Nusantara Quest', c:'edukasi',    e:'',            d:'Game edukasi multiplayer untuk mengenalkan kekayaan warisan budaya kepulauan Nusantara.' },
-    { f:'VOXSILVA/VOXSILVA.jpg',        n:'VoxSilva',        c:'lingkungan', e:'I2ASPO 2025', d:'Perangkat pemantau hutan berbasis IoT untuk mendeteksi pembalakan liar dan mendukung keberlanjutan.' },
-    { f:'GLUCOCARE/GLUCOCARE.jpg',      n:'GlucoCare',       c:'kesehatan',  e:'',            d:'Kapsul herbal penstabil glukosa untuk penderita diabetes dilengkapi perangkat pendukung berbasis sensor.' },
-    { f:'AGROMETT/AGROMETT.jpg',        n:'AgroMett',        c:'pangan',     e:'I2ASPO 2025', d:'Stasiun cuaca multifungsi dengan aplikasi mobile untuk menjawab tantangan pertanian di Indonesia.' },
-    { f:'MYOSIG/MYOSIG.jpg',            n:'MyoSig',          c:'kesehatan',  e:'',            d:'Perangkat wearable pintar untuk pemantauan dan rehabilitasi pasien stroke berbasis sensor EMG.' },
-    { f:'FLUXO/FLUXO.jpg',              n:'Fluxo',           c:'energi',     e:'',            d:'Sistem mikrohidro modular berbasis IoT dengan turbin ulir Archimedes untuk elektrifikasi desa terpencil.' },
-    { f:'V-TORO/V-TORO.jpg',            n:'V-Toro',          c:'kesehatan',  e:'',            d:'Virtual reality untuk meningkatkan keterampilan sosial anak autisme dengan konteks gotong royong.' },
-    { f:'NECTRA/NECTRA.jpg',            n:'Nectra',          c:'kesehatan',  e:'AISEEF 2026', d:'Kalung pintar bertenaga AI untuk mencegah penyakit metabolik melalui pelacakan kalori otomatis.' },
-    { f:'FLONERA/FLONERA.jpg',          n:'Flonera',         c:'pangan',     e:'I2ASPO 2025', d:'Solusi smart farming berbasis drone dan AI untuk deteksi dini penyakit tanaman.' },
-    { f:'SERENECAM/SERENECAM.jpg',      n:'SereneCam',       c:'kesehatan',  e:'🥇 Gold & Special Award Thailand IID 2025 ',    d:'Sistem cerdas berbasis mikroekspresi untuk memantau kesehatan mental karyawan dan menjaga produktivitas.' },
-    { f:'NUSADWIPA/NUSADWIPA.jpg',      n:'NusaDwipa',       c:'edukasi',    e:'I2ASPO 2025', d:'Permainan edukasi budaya Indonesia multiplayer dengan konsep pembelajaran kolaboratif tiga dimensi.' },
-    { f:'VECTRO/VECTRO.jpg',            n:'Vectro',          c:'kesehatan',  e:'AISEEF 2026', d:'Game berbasis kontrol gestur untuk melatih koordinasi visuomotor anak dengan spektrum autisme.' },
-    { f:'PURIVA/PURIVA.jpg',            n:'Puriva',          c:'pangan',     e:'🥇 Gold Medal IID 2025',    d:'Chamber UV-C pintar dengan klasifikasi AI untuk mengeliminasi patogen makanan program makan gratis.' },
-    { f:'MINDWELL/MINDWELL.jpg',        n:'MindWell',        c:'kesehatan',  e:'',            d:'Inovasi psikoteknologi biofeedback untuk deteksi dini dan pemantauan kesehatan mental di era Society 5.0.' },
-    { f:'INARITECH/INARITECH.jpg',      n:'InariTech',       c:'pangan',     e:'',            d:'Stasiun cuaca multifungsi dengan AI untuk rekomendasi cerdas bagi sektor pertanian Indonesia.' },
-    { f:'GAPAI/GAPAI.jpg',              n:'GAPAI',           c:'kesehatan',  e:'',            d:'Asisten analisis gaya berjalan dan postur berbasis AI untuk mendukung dokter dan fisioterapis.' },
-    { f:'VOLUX/VOLUX.jpg',              n:'Volux',           c:'teknologi',  e:'SEMESTA 2025',d:'Kubus LED interaktif sebagai era baru interaksi visual untuk hiburan dan edukasi Indonesia.' },
-    { f:'EVALONIX/EVALONIX.jpg',        n:'Evalonix',        c:'teknologi',  e:'',            d:'Program anti-kecurangan berbasis AI yang terintegrasi sistem pengawasan untuk ujian daring yang jujur.' },
-    { f:'FINPRES/FINPRES.jpg',          n:'FinPres',         c:'edukasi',    e:'🥉 Bronze Medal IID 2025',    d:'Platform fintech inklusi finansial akademik untuk mendemokratisasi prestasi siswa di era Society 5.0.' },
-    { f:'SPORTFLUX/SPORTFLUX.jpg',      n:'SportFlux',       c:'kesehatan',  e:'',            d:'Platform pemantauan performa atlet dengan sensor EMG serta rekomendasi pelatih dan fisioterapis.' },
-    { f:'LPB/LPB.jpg',                  n:'LPB',             c:'energi',     e:'',            d:'Kombinasi pembangkit mikrohidro dan generator hidrogen modular untuk kebutuhan listrik daerah 3T.' },
-    { f:'STEPX/STEPX.jpg',              n:'StepX',           c:'kesehatan',  e:'',            d:'Alat pendukung dokter dan fisioterapis dalam mendiagnosis gangguan gaya berjalan dan postur.' },
-    { f:'VERTAFLEX/VERTAFLEX.jpg',      n:'VertaFlex',       c:'kesehatan',  e:'🥇 Gold & Spesial award IID 2025',            d:'Sistem pemantauan muskuloskeletal berbasis Web-3 untuk analisis postur pekerja menuju Health 5.0.' },
-    { f:'VITAFLUX/VITAFLUX.jpg',        n:'VitaFlux',        c:'kesehatan',  e:'',            d:'Perangkat wearable biofeedback dengan headband EEG untuk pemantauan kesehatan dan relaksasi.' },
-    { f:'JDIE/JDIE.jpg',                n:'JDIE',            c:'pangan',     e:'',            d:'Aplikasi terhubung drone pintar untuk pemantauan tanaman dan rekomendasi perawatan otomatis.' },
-    { f:'LUNA/LUNA.jpg',                n:'LUNA',            c:'teknologi',  e:'',            d:'Utilitas LiDAR untuk analisis navigasi dilengkapi panduan penggunaan aplikasi yang lengkap.' },
+    { f:'ALCURA/ALCURA.jpg',              n:'Alcura',        c:'lingkungan', e:'🏆 Grand Award WIIPA · JDIE 2026',
+      t:'', m:[], 
+      s:'', docs:[], l:'',
+      d:'Lampu fotobioreaktor mikroalga cerdas berbasis AIoT — memurnikan udara, memproduksi oksigen, dan dipantau real-time untuk green building.' },
+    { f:'EDUBOX/EDUBOX.jpg',              n:'EduBox',        c:'edukasi',    e:'🥈 Silver Medal IID 2025',
+      t:'EduBox: Learning Platform Based on Pseudo-Holograms to Enhance Students\' STEM Aspects and Potential Towards Industry 5.0', m:['Christian Melody Dharma Saputra', 'Puteri Shakyra Arrisqa', 'Isabelle Nadindracitta', 'Damian David Pazia', 'Maria Natha Elora', 'Jafar Winada', 'Jovita Ardelia Zahra'],
+      s:'SMA 3 Yogyakarta', docs:[], l:'',
+      d:'Kotak edukasi interaktif berbasis IoT untuk pembelajaran STEM dan literasi digital di sekolah menengah.' },
+    { f:'SANATECH/SANATECH.jpg',          n:'SanaTECH',      c:'kesehatan',  e:'🥈 Silver Medal IID 2025',
+      t:'SanaTech: Non-Invasive Biofeedback System for Real-time Mental and Physical Health Monitoring using Multi-modal Sensing', m:['Khanza Kalyana A.D.', 'Dzaki Putra I.', 'Aulia Shendy L.', 'Alya Nadira Putri', 'Annisa Zahra Putri', 'Aisyah Putri N.S', 'Galuh Anindya K.'],
+      s:'SMA Negeri 1 Teladan Yogyakarta', docs:[], l:'https://sanatech-official.web.app/',
+      d:'Sistem biofeedback inovatif yang non-invasif, yang dirancang untuk mendukung pemantauan kesehatan mental dan fisik secara real-time menggunakan sensor multimodal.' },
+    { f:'NOCTIVIS/NOCTIVIS.jpg',          n:'Noctivis',      c:'kesehatan',  e:'MTE 2026',
+      t:'A Multimodal Biosignal Wearable for Early Detection of Drowsiness and Microsleep Risk Using Ear-EEG and Motion Analysis', m:['Nareswari Raissa Boewono', 'Khanza Kalyana Arum Dalu', 'Aulia Shendy Lathiif', 'Almira Windia Ainurrohmah Sayekti', 'Aisya Calya Maysurah', 'Aisha Musika Marella'],
+      s:'SMA 1 Surakarta, SMA 2 Surakarta, SMA Negeri 4 Surakarta, SMA Negeri 5 Surakarta, SMK Negeri 5 Surakarta', docs:[], l:'',
+      d:'Wearable biosignal multimodal untuk deteksi dini kantuk dan risiko microsleep berbasis Ear-EEG.' },
+    { f:'OLYRA/OLYRA.jpg',                n:'Olyra',         c:'kesehatan',  e:'MTE 2026',
+      t:'An Intelligent EEG Headband for Multi-Parameter Mental Health Therapy and ADHD Management', m:['Maheswara Nala Wisadewa', 'Farek Ibrahimiya Wishnuwardana', 'Jiwa Pertama Nugroho', 'Jordan Oliver Adhiwinara', 'Amelia Fahima Atlatar', 'Clara Letitia Olivia Gunawan', 'Raina Pio Aurelia Santosa'],
+      s:'SMA Negeri 5 Yogyakarta', docs:[], l:'https://olyra-id.web.app/',
+      d:'Headband EEG cerdas untuk terapi kesehatan mental multi-parameter dan manajemen ADHD.' },
+    { f:'BATIKED/BATIKED.jpg',            n:'BatikEd',       c:'edukasi',    e:'',
+      t:'Batiked: Aplikasi Pembelajaran Membatik untuk Anak Tunarungu Guna Meningkatkan Kreativitas dan Keterampilan Seni', m:['Rieva Aisha Fairisha', 'Rafael Maruli Errando Sinaga', 'Kalila Azalia Putri Rinaldi', 'Abimantra Pramasadiya'],
+      s:'SMP N 5 Yogyakarta', docs:[], l:'https://batikedusa.web.app/',
+      d:'Aplikasi edukasi budaya batik dalam bahasa isyarat karya tim siswa SMP Negeri 5 Yogyakarta.' },
+    { f:'HYDROVOLTIGER/HYDROVOLTIGER.jpg',n:'HydroVoltiger', c:'energi',     e:'I2ASPO 2025',
+      t:'HYDROVOLTIGER: A Scalable, Flexxible, Affordable, and Measurable IoT-Based System Utilizing a Crossflow Turbine for Renewable Energy Provision', m:['Farek I. Wishnuwardana', 'Kenneth S. Bittikaka', 'Jordan Oliver A', 'Samuel Tegar S', 'Theresia Keiona R', 'Calya Raissa K.'],
+      s:'SMA Negeri 5 Yogyakarta', docs:[], l:'https://hydrovoltiger-e2d28.web.app/',
+      d:'Sistem energi terbarukan berbasis IoT menggunakan turbin crossflow yang skalabel dan terjangkau.' },
+    { f:'AGRIHOUSE/AGRIHOUSE.jpg',        n:'AgriHouse',     c:'pangan',     e:'I2ASPO 2025',
+      t:'AgriHouse: A Smart Greenhouse AI Consultation System', m:['Maheswara Nala Wisadewa', 'Khaireel Karim', 'Alifva Rizky Pratama', 'Kezia Gladis Winatasya', 'Refand Gracias Natanael Lumban Tobing', 'Faris Wahid Amrullah'], 
+      s:'MBS Pleret, SMK IT Al Furqon, MA Multimedia Ar-Risalah, SMA Negeri 5 Yogyakarta, SMK Negeri 1 Bantul, SMAN 1 Pakem Yogyakarta', docs:[], l:'https://tomitech-id.web.app/',
+      d:'Sistem konsultasi rumah kaca pintar berbasis AI untuk membantu petani mengelola tanaman secara otomatis.' },
+    { f:'VOXSILVA/VOXSILVA.jpg',          n:'VoxSilva',      c:'lingkungan', e:'I2ASPO 2025',
+      t:'VoxSilva: Low-Cost AI-Powered Forest Surveillance System with a Sensor Network for Illegal Logging Detection', m:['Narendra Nararya Nurhan', 'Adel Erasmo Farasya', 'Muhammad Davino Anandra', 'W Javier Rafa Ramadhan', 'Aditya Sakti Nugraha', 'Aero Naufally Fadian'],
+      s:'', docs:[], l:'https://voxsilva404-3194e.web.app/',
+      d:'Perangkat pemantau hutan berbasis IoT untuk mendeteksi pembalakan liar dan mendukung keberlanjutan.' },
+    { f:'AGROMETT/AGROMETT.jpg',          n:'AgroMett',      c:'pangan',     e:'I2ASPO 2025',
+      t:'Agromett: Multi-Purpose Weather Station Addressing Agricultural Challenges in Indonesia', m:['Athala Deandra Putra Mahade', 'Desta Govinda Tama', 'Faiz Akbar Aryasatya', 'Hassan Marsa Theoharjowinangun', 'Maynard Beni Stefano', 'Nareswari Ayuningtyas'],
+      s:'SMA Negeri 5 Yogyakarta', docs:[], l:'https://agromett-id.web.app/home.html',
+      d:'Stasiun cuaca multifungsi dengan aplikasi mobile untuk menjawab tantangan pertanian di Indonesia.' },
+    { f:'MYOSIG/MYOSIG.jpg',              n:'MyoSig',        c:'kesehatan',  e:'',
+      t:'MyoSig : Smart Wearable Device for Stroke Monitoring & Rehabilitation', m:['Elvaretta Orlin Jayasaputri', 'Maria Josephine Arvinta', 'Lidwina Pramudya Ganes Gantari', 'Brigitta Arnesthi Maharsiwi', 'Cornelia Aurora Indira Rivandy', 'Nathania Delvi Anabel Nirwasita', 'Clara Alayna Kusumo Wadaringtyas'],
+      s:'SMA Negeri 2 Yogyakarta', docs:[], l:'',
+      d:'Perangkat wearable pintar untuk pemantauan dan rehabilitasi pasien stroke berbasis sensor EMG.' },
+    { f:'V-TORO/V-TORO.jpg',              n:'V-Toro',        c:'kesehatan',  e:'',
+      t:'Virtual Reality To Improve Autism Social Skills With A "Gotong Royong" Context', m:['Christian Melody Dharma Saputra', 'Maria Natha Elora', 'Chaterine Kezia Kurniawan', 'Rafael Maruli Errando Sinaga', 'Elvaretta Orlin Jayasaputri'],
+      s:'SMPN 4 Yogyakarta, SMPN 5 Yogyakarta', docs:[], l:'',
+      d:'Virtual reality untuk meningkatkan keterampilan sosial anak autisme dengan konteks gotong royong.' },
+    { f:'SERENECAM/SERENECAM.jpg',        n:'SereneCam',     c:'kesehatan',  e:'🥇 Gold & Special Award Thailand IID 2025',
+      t:'A Low-Cost, Microexpression-Based Intelligent System for Monitoring Work Performance', m:['Maheswara Nala W.', 'Athala Wiksa P.', 'Nicholas Farel A.', 'Alfian Zhafran H.Q.', 'Nur Asyifa F.', 'Jordan Oliver A.', 'Bernadeth Devika L.A.'],
+      s:'SMA Negeri 5 Yogyakarta', docs:[], l:'',
+      d:'Sistem cerdas berbasis mikroekspresi untuk memantau kesehatan mental karyawan dan menjaga produktivitas.' },
+    { f:'NUSADWIPA/NUSADWIPA.jpg',        n:'NusaDwipa',     c:'edukasi',    e:'I2ASPO 2025',
+      t:'Game Edukasi Kebudayaan Nusantara Berbasis Multiplayer dengan Konsep Collaborative Learning', m:['Raziq Putra Wijaya Ginting', 'Seno Aji Wibowo', 'Ahza Rayhan Adhyasta', 'Keanu Alvaro Abiyyu Dharma', 'Teuku Muhammad Allie Fachrie'],
+      s:'SMP N 5 Yogyakarta', docs:[], l:'',
+      d:'Permainan edukasi budaya Indonesia multiplayer dengan konsep pembelajaran kolaboratif tiga dimensi.' },
+    { f:'PURIVA/PURIVA.jpg',              n:'Puriva',        c:'pangan',     e:'🥇 Gold Medal IID 2025',
+      t:'PURIVA: A Smart UV-C Chamber for Eliminated Pathogen on Food Surface with AI-Based Food Classification to Reduce Food Poisioning in Indonesia\'s Free Meal Program', m:['Dhamma Panna Vajrapani', 'Khalila Hasna Achava', 'Chaterine Kezia Kurniawan', 'Alya Titiana Kalisha', 'Arina Zulfa Nashita', 'Sandya Nariswari'],
+      s:'SMA Negeri 6 Yogyakarta', docs:[], l:'https://purivauvfood.web.app/',
+      d:'Chamber UV-C pintar dengan klasifikasi AI untuk mengeliminasi patogen makanan program makan gratis.' },
+    { f:'INARITECH/INARITECH.jpg',        n:'InariTech',     c:'pangan',     e:'',
+      t:'InariTech: Multi-Purpose Weather Station Addressing Agricultural Challenges in Indonesia', m:['Maheswara Nala Wisadewa', 'Abhimata Surya Anugrah', 'Abraham Yudistira Renwarin', 'Narendra Nararya Nurhan', 'Avandreda Giano Bestafa'],
+      s:'SMP N 5 Yogyakarta', docs:[], l:'',
+      d:'Stasiun cuaca multifungsi dengan AI untuk rekomendasi cerdas bagi sektor pertanian Indonesia.' },
+    { f:'GAPAI/GAPAI.jpg',                n:'GAPAI',         c:'kesehatan',  e:'',
+      t:'Gait Analysis and Posture Assistant Intelligent sebagai Alat Pendukung Dokter dan Fisioterapis dalam Diagnosis Gangguan Gait dan Postur Tubuh', m:['Muhammad Alif Ramadhan Aviandra', 'Galang Arkana Dharma', 'Putu Kania Gayatri', 'Evander Leon Prawira'],
+      s:'SMA Taruna Nusantara', docs:[], l:'',
+      d:'Asisten analisis gaya berjalan dan postur berbasis AI untuk mendukung dokter dan fisioterapis.' },
+    { f:'LPB/LPB.jpg',                    n:'LPB',           c:'energi',     e:'',
+      t:'Kombinasi Teknologi Pembangkit Listrik Tenaga Mikro Hidro dan Generator Hidrogen berbasis Modular untuk Memenuhi Kebutuhan Energi Listrik di Daerah Terdepan, Terluar, dan Tertinggal (3T)', m:['Christian Melody Dharma Saputra', 'Maria Natha Elora'],
+      s:'SMA 3 Yogyakarta', docs:[], l:'',
+      d:'Kombinasi pembangkit mikrohidro dan generator hidrogen modular untuk kebutuhan listrik daerah 3T.' },
+    { f:'STEPX/STEPX.jpg',                n:'StepX',         c:'kesehatan',  e:'',
+      t:'Step and Posture eXpert as Support Tools for Doctors and Physiotherapists in Diagnosing Gait and Posture Disorders', m:[],
+      s:'SMA Taruna Nusantara', docs:[], l:'',
+      d:'Alat pendukung dokter dan fisioterapis dalam mendiagnosis gangguan gaya berjalan dan postur.' },
+    { f:'VERTAFLEX/VERTAFLEX.jpg',        n:'VertaFlex',     c:'kesehatan',  e:'🥇 Gold & Spesial award IID 2025',
+      t:'A Musculoskeletal Monitoring System Based On Web-3 for Musculoskeletal Disorders Analysis in Workplace toward Health 5.0', m:['Evander Leon Prawira', 'Galang Arkana Dharma', 'Putu Kania Gayatri', 'Muhammad Alif Ramadhan Aviandra'],
+      s:'SMA Taruna Nusantara', docs:[], l:'https://vertaflex-a2f59.web.app/nvidia.html',
+      d:'Sistem pemantauan muskuloskeletal berbasis Web-3 untuk analisis postur pekerja menuju Health 5.0.' },
   ];
   const PORT_PAGE = 9;
   let portFilter = 'all', portShown = PORT_PAGE;
@@ -2043,15 +2086,53 @@
   });
   portMore.addEventListener('click', () => { portShown += PORT_PAGE; renderPort(); });
 
-  // ── Image lightbox ───────────────────────────────────────────
+  // ── Project detail panel ─────────────────────────────────────
   function openProjDetail(p) {
-    const lb = document.getElementById('proj-lightbox');
-    document.getElementById('projLbImg').src = 'portfolio/' + p.f;
-    lb.hidden = false;
+    const panel = document.getElementById('proj-detail-panel');
+    document.getElementById('pdThumb').src = 'portfolio/' + p.f;
+    document.getElementById('pdThumb').alt = p.n;
+    document.getElementById('pdName').textContent = p.n;
+    document.getElementById('pdTitle').textContent = p.t || '';
+    document.getElementById('pdDesc').textContent = p.d;
+    document.getElementById('pdCat').textContent = CAT_LABEL[p.c] || p.c;
+
+    const awardEl = document.getElementById('pdAward');
+    if (p.e) {
+      awardEl.textContent = (p.e.startsWith('🏆')||p.e.startsWith('🥇')||p.e.startsWith('🥈')||p.e.startsWith('🥉')) ? p.e : '🌏 ' + p.e;
+      awardEl.hidden = false;
+    } else { awardEl.hidden = true; }
+
+    document.getElementById('pdMembers').textContent = p.m && p.m.length ? p.m.join(', ') : 'not available';
+    document.getElementById('pdSchool').textContent = p.s || 'not available';
+
+    const docsEl = document.getElementById('pdDocs');
+    docsEl.innerHTML = '';
+    if (p.docs && p.docs.length) {
+      docsEl.className = 'proj-detail-docs';
+      p.docs.forEach(src => {
+        const img = document.createElement('img');
+        img.src = 'portfolio/' + src; img.alt = 'Dokumentasi'; img.loading = 'lazy';
+        docsEl.appendChild(img);
+      });
+    } else {
+      docsEl.className = '';
+      docsEl.innerHTML = '<span class="proj-detail-na">not available</span>';
+    }
+
+    const linkEl = document.getElementById('pdLink');
+    if (p.l) {
+      linkEl.innerHTML = `<a href="${p.l}" target="_blank" rel="noopener">${p.l}</a>`;
+    } else {
+      linkEl.innerHTML = '<span class="proj-detail-na">not available</span>';
+    }
+
+    panel.hidden = false;
+    panel.scrollTop = 0;
     document.body.style.overflow = 'hidden';
-    const close = () => { lb.hidden = true; document.body.style.overflow = ''; };
-    lb.onclick = close;
-    document.getElementById('lbClose').onclick = e => { e.stopPropagation(); close(); };
+    document.getElementById('projDetailBack').onclick = () => {
+      panel.hidden = true;
+      document.body.style.overflow = '';
+    };
   }
 
   const styleEl = document.createElement('style');
@@ -2429,9 +2510,20 @@
     });
   }, { passive: true });
 </script>
-<div id="proj-lightbox" class="img-lightbox" hidden>
-  <button class="img-lightbox-close" id="lbClose">&#x2715;</button>
-  <img id="projLbImg" src="" alt=""/>
+<div id="proj-detail-panel" class="proj-detail-panel" hidden>
+  <div class="proj-detail-inner">
+    <button class="proj-detail-back" id="projDetailBack">&#8592; Kembali</button>
+    <img id="pdThumb" src="" alt="" class="proj-detail-thumb"/>
+    <div id="pdAward" class="port-award proj-detail-award"></div>
+    <div id="pdCat" class="proj-detail-cat"></div>
+    <h2 id="pdName" class="proj-detail-name"></h2>
+    <p id="pdTitle" class="proj-detail-title"></p>
+    <div class="proj-detail-section"><h4>Deskripsi</h4><p id="pdDesc"></p></div>
+    <div class="proj-detail-section"><h4>Anggota Peneliti</h4><p id="pdMembers"></p></div>
+    <div class="proj-detail-section"><h4>Sekolah</h4><p id="pdSchool"></p></div>
+    <div class="proj-detail-section"><h4>Dokumentasi</h4><div id="pdDocs"></div></div>
+    <div class="proj-detail-section"><h4>Link Web / Aplikasi</h4><p id="pdLink"></p></div>
+  </div>
 </div>
 </body>
 </html>
