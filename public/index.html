@@ -7,6 +7,9 @@
   <meta name="description" content="TOM Academy — inkubator riset, teknologi, dan inovasi untuk siswa. Bimbingan lomba riset, pengembangan teknologi, dan inkubasi bisnis berbasis penelitian." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://drive.google.com" crossorigin>
+  <link rel="preconnect" href="https://docs.google.com" crossorigin>
+  <link rel="dns-prefetch" href="https://drive.google.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -735,6 +738,19 @@
     }
     .videobox.open .videobox-frame { transform: scale(1); }
     .videobox-frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+    .vb-facade {
+      position: absolute; inset: 0; cursor: pointer;
+      background: #000; display: flex; align-items: center; justify-content: center;
+    }
+    .vb-facade img { width: 100%; height: 100%; object-fit: cover; opacity: .85; }
+    .vb-facade-play {
+      position: absolute; width: 72px; height: 72px; border-radius: 50%;
+      background: rgba(255,255,255,.9); border: none; cursor: pointer;
+      font-size: 1.8rem; display: flex; align-items: center; justify-content: center;
+      transition: transform .2s, background .2s; padding-left: 5px;
+    }
+    .vb-facade-play:hover { transform: scale(1.1); background: #fff; }
+    .videobox-frame { position: relative; }
     .videobox-title {
       position: absolute; top: 1.4rem; left: 50%; transform: translateX(-50%);
       background: rgba(255,255,255,.12); color: white; white-space: nowrap;
@@ -1449,7 +1465,13 @@
 <div class="videobox" id="videobox">
   <button class="lb-close" id="vbClose" aria-label="Tutup">✕</button>
   <div class="videobox-title" id="vbTitle"></div>
-  <div class="videobox-frame"><iframe id="vbFrame" src="" allow="autoplay; fullscreen" allowfullscreen title="Video TOM Academy"></iframe></div>
+  <div class="videobox-frame">
+    <div id="vbFacade" class="vb-facade">
+      <img id="vbPoster" src="" alt=""/>
+      <button class="vb-facade-play" id="vbPlay" aria-label="Putar video">&#9654;</button>
+    </div>
+    <iframe id="vbFrame" src="" allow="autoplay; fullscreen" allowfullscreen title="Video TOM Academy"></iframe>
+  </div>
 </div>
 
 <!-- ═══ EKOSISTEM / WORKSHOP ══════════════════════════════════════ -->
@@ -2210,12 +2232,12 @@
     { id:'1iZ1XS98Ccv0bF1W59rRcx5UVocq0DnHg', poster:'video/noctivis_mte.jpg',   title:'Suasana Booth Tim Noctivis',        tag:'MTE 2026' },
     { id:'1MwbLRSk8aEwJlvpLP_mFmEbIOLsCcxNw', poster:'video/nusadwipa.jpg',      title:'Demo Game Edukasi NusaDwipa',       tag:'Demo Produk' },
     { id:'1Ew8pFsyjnWTkJoTHaf9DapEpjVxYXVpT', poster:'video/vitalora_web.jpg',   title:'Pengenalan Platform Vitalora',      tag:'YISF 2026' },
-    { id:'1cNAkJIj4a1QYIREi8zdJ4H-evt2l1e7Z', poster:'video/vitalora_web.jpg',   title:'Pengenalan Platform Vitalora',      tag:'YISF 2026' },
-    { id:'1WSjjguvfUBJDxxygTZ_sL_hhI22IYKI7', poster:'video/vitalora_web.jpg',   title:'Pengenalan Platform Vitalora',      tag:'YISF 2026' },
-    { id:'1L45Lk4PAWYJs7nhPSS9MFiipIYgMGg12', poster:'video/vitalora_web.jpg',   title:'Pengenalan Platform Vitalora',      tag:'YISF 2026' },
-    { id:'14Ejzgu6L-EVWcexrwKOx9HgtjPk9eplZ', poster:'video/vitalora_web.jpg',   title:'Pengenalan Platform Vitalora',      tag:'YISF 2026' },
-    { id:'1zmIoW0txnbHNYJPAMw6RZv7lAGAhpqiT', poster:'video/vitalora_web.jpg',   title:'Pengenalan Platform Vitalora',      tag:'YISF 2026' },
-    { id:'1tPIHhWpjvsYISXqTNChhu0XEVjEEwcLQ', poster:'video/vitalora_web.jpg',   title:'Pengenalan Platform Vitalora',      tag:'YISF 2026' },
+    { id:'1cNAkJIj4a1QYIREi8zdJ4H-evt2l1e7Z', poster:'video/rosus.jpg',          title:'Pengenalan Platform Rosus',         tag:'Demo Produk' },
+    { id:'1WSjjguvfUBJDxxygTZ_sL_hhI22IYKI7', poster:'video/agnivolt-pltmh.jpg', title:'Demo Produk Agnivolt',              tag:'I2ASPO' },
+    { id:'1L45Lk4PAWYJs7nhPSS9MFiipIYgMGg12', poster:'video/ergodrive.jpg',      title:'Demo Simulasi Ergodrive',           tag:'Demo Produk' },
+    { id:'14Ejzgu6L-EVWcexrwKOx9HgtjPk9eplZ', poster:'video/ergofit.jpg',        title:'Demo Ergofit',                      tag:'JARPAK 2025' },
+    { id:'1zmIoW0txnbHNYJPAMw6RZv7lAGAhpqiT', poster:'video/nectra.jpg',         title:'Pengenalan Produk Nectra',          tag:'AISEEF 2026' },
+    { id:'1tPIHhWpjvsYISXqTNChhu0XEVjEEwcLQ', poster:'video/voxsilva.jpg',       title:'Video Profile Voxsilva',            tag:'I2ASPO' },
   ];
   const videoGrid = document.getElementById('videoGrid');
   const videobox  = document.getElementById('videobox');
@@ -2229,8 +2251,16 @@
       <div class="vid-play">▶</div>
       <div class="vid-info"><h3>${v.title}</h3><span>${v.tag}</span></div>`;
     card.addEventListener('click', () => {
-      vbFrame.src = 'https://drive.google.com/file/d/' + v.id + '/preview';
+      const facade = document.getElementById('vbFacade');
+      const frame  = document.getElementById('vbFrame');
       vbTitle.textContent = v.title;
+      document.getElementById('vbPoster').src = v.poster || '';
+      facade.style.display = 'flex';
+      frame.src = '';
+      document.getElementById('vbPlay').onclick = () => {
+        facade.style.display = 'none';
+        frame.src = 'https://drive.google.com/file/d/' + v.id + '/preview';
+      };
       videobox.classList.add('open');
       document.body.style.overflow = 'hidden';
     });
@@ -2239,7 +2269,10 @@
   function closeVideobox() {
     videobox.classList.remove('open');
     document.body.style.overflow = '';
-    setTimeout(() => { vbFrame.src = ''; }, 280);
+    setTimeout(() => {
+      vbFrame.src = '';
+      document.getElementById('vbFacade').style.display = 'flex';
+    }, 280);
   }
   document.getElementById('vbClose').addEventListener('click', closeVideobox);
   videobox.addEventListener('click', e => { if (e.target === videobox) closeVideobox(); });
